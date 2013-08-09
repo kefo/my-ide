@@ -1,0 +1,62 @@
+!!! 5
+html(lang='en')
+head
+    meta(charset='UTF-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    //
+       Bootstrap core CSS 
+    link(href='static/css/bootstrap.css', rel='stylesheet')
+    title Editor
+    script(src='static/js/jquery-1.10.2.min.js', type='text/javascript', charset='utf-8').
+    script(src='static/js/bootstrap.min.js', type='text/javascript', charset='utf-8').
+    script(src='static/js/ace-builds/src/ace.js', type='text/javascript', charset='utf-8').
+    //
+      script(data-main='static/js/ace/lib/ace/ace', src='static/js/require.js').
+    //
+      script(src='static/js/ace/lib/ace/ace.js', data-ace-base='src', type='text/javascript', charset='utf-8').
+    script(src='static/js/vkbeautify.0.99.00.beta.js', type='text/javascript', charset='utf-8').
+    script(src='static/js/ide.js', type='text/javascript', charset='utf-8').
+    link(href='static/css/ide.css', rel='stylesheet')
+  body
+    .navbar.navbar-fixed-top(style='background-color: white;')
+      .container
+        button.navbar-toggle(type='button', data-toggle='collapse', data-target='.nav-collapse')
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        a.navbar-brand(style='max-width: 300px;', href='/')
+          | XML Create 
+          i &amp; 
+          | Validate
+        .nav-collapse.collapse.pull-right
+          ul.nav.nav-pills
+            li
+              a(href='#') Open
+            li
+              a(href='#about') Save
+            li
+              a(id='prettify', href='#prettify') Prettify
+            li
+              a(id='validate', href='#validate') Validate
+    .container
+      .info
+        .row(style='height: 20px;')
+          #filename.col-lg-4
+          #info.col-lg-4
+          #schema.col-lg-4
+        .row
+          #fi.col-lg-2(style='overflow-y:auto; position:absolute; height: auto; bottom: 0px; top: 70px; left: 0px; margin-top: 10px; margin-bottom: 10px; margin-left: 0px; margin-right: 0px;')
+            div
+              #files
+          // #ed.col-lg-10
+          #ed.col-lg-10(style='position:absolute; height: auto; bottom: 0px; top: 70px; right: 0px; margin-top: 10px; margin-bottom: 10px; margin-left: 0px; margin-right: 0px;')
+            ul#editorTabs.nav.nav-tabs
+              li.active
+                a(id='edtab-eContentID', href='#edtab', data-toggle="tab") New
+            #editorContents.tab-content
+              #edtab.tab-pane.active
+                .starter-template
+                  pre(id='ed1', class='editor')
+                    &lt;?xml version="1.0"?&gt;
+

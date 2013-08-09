@@ -1,0 +1,58 @@
+body {
+	//overflow: hidden;
+    padding-top: 50px;
+}
+
+#files {
+	margin: 0;
+	position: absolute;
+	top: 0px;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+
+.editor {
+	margin: 0;
+	position: absolute;
+	top: 40px;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+
+.starter-template {
+	padding: 40px 15px;
+}
+
+.open {
+	list-style-type: none;
+	display: block;
+	padding-left: 8px;
+}
+
+.open li.dirclosed {
+	/*list-style-image: url('../images/folder-grey_open.png');*/
+	background: url('../images/folder-blue_closed.png') no-repeat;
+	padding-left: 20px;
+}
+
+.open li.diropen {
+	/*list-style-image: url('../images/folder-grey_open.png');*/
+	background: url('../images/folder-blue_open.png') no-repeat;
+	padding-left: 20px;
+}
+
+.hide {
+	display: none;
+}
+
+.file {
+	background: url('../images/text-x-source.png') no-repeat;
+	padding-left: 20px;
+}
+
+.alert-unsaved {
+	color: #b94a48 !important;
+}
+
