@@ -9,11 +9,15 @@ function init() {
 	});
 	
 	fileObj = new Object();
+	editor = new Object();
+	openFiles = new Object();
+	
 	config = new Object();
 	getconfig = $.getJSON('config.json');
 	getconfig.done(function(data) { 
 		config = data;
 		loadProjects();
+		instantiateEditor();
 	});
 	
 	// Capture tab click events.
@@ -33,115 +37,6 @@ function init() {
 		} else {
 			return 'All documents saved.  Did you want to close?';
 		}
-	});
-	
-	// Set up the editor
-	EditSession = ace.require('ace/edit_session').EditSession;
-	editor = ace.edit("ed1");
-	editor.setTheme("ace/theme/eclipse");
-    editor.getSession().setMode("ace/mode/text");
-    editor.getSession().setValue("");
-    editor.resize()
-    editor.on("change", function(e) {
-		setUnsaved();
-	});
-	editor.commands.addCommand({
-		name: 'closeTab',
-		bindKey: {
-			win: 'Ctrl-W',
-			mac: 'Command-W',
-			sender: 'editor|cli'
-		},
-		exec: function(env, args, request) {
-			eTabs = $("#editorTabs");
-			li = eTabs.find("li.active").eq(0);
-			tab = eTabs.find("li.active a").eq(0);
-	
-			fid = tab.attr('href').replace("-eContent", "");
-			fid = fid.replace("#", "");
-			
-			if (openFiles[fid].savestatus == "saved") {
-				// Let's close the tab and destroy the editing session.
-				closeTab(li, fid);
-			} else {
-				var r=confirm("The file has changed and not been saved.  Do you really want to close this tab?");
-				if (r==true) {
-					closeTab(li, fid);
-				} else {
-					toggleTab(tab);
-				}
-			}
-		}
-	});
-	editor.commands.addCommand({
-		name: 'saveFile',
-		bindKey: {
-			win: 'Ctrl-S',
-			mac: 'Command-S',
-			sender: 'editor|cli'
-		},
-		exec: function(env, args, request) {
-			eTabs = $("#editorTabs");
-			li = eTabs.find("li.active").eq(0);
-			tab = eTabs.find("li.active a").eq(0);
-	
-			fid = tab.attr('href').replace("-eContent", "");
-			fid = fid.replace("#", "");
-			
-			if (openFiles[fid].savestatus == "edited") {
-				// Content has been edited, let's save it.
-				if ( openFiles[fid].filepath != "" ) {
-					content = editor.getSession().getValue();
-					$.post("/savefile/", { filepath: openFiles[fid].filepath, content: content } )
-						.done(function(data) {
-							response = data;
-							if (response.error) {
-								idiv = $("#info");
-								var messagediv = $('<div id="responsemessage" class="alert alert-danger">' + response.message + '</div>');
-								idiv.append(messagediv);
-								messagediv.fadeOut(15000, function() {
-									idiv.empty();
-								});
-							} else {
-								text = tab.html()
-								text = text.replace(" *", "");
-								tab.html(text);
-								tab.removeClass("alert-unsaved");
-								openFiles[fid].savestatus = "saved";
-								
-								idiv = $("#info");
-								var messagediv = $('<div id="responsemessage" class="alert alert-success">' + response.message + '</div>');
-								idiv.append(messagediv);
-								messagediv.fadeOut(2000, function() {
-									idiv.empty();
-								});
-							}
-						});
-				}
-			}
-		}
-	});
-	
-	openFiles = new Object();
-	openFiles["edtab"] = { fileid: "edtab", edsession: editor.getSession(), filename: "", filepath: "", savestatus: "saved" };
-          
-	$( "#prettify" ).click(function() {
-			
-		var xml = editor.getSession().getValue();
-		xml = vkbeautify.xml(xml)
-		editor.getSession().setValue(xml);
-	});
-	
-	$( "#validate" ).click(function() {
-		var xml = editor.getSession().getValue();
-		var xmlDoc = $.parseXML( xml );
-		var $xml = $( xmlDoc );
-		
-		root = ($xml.find("*").eq(0)[0]);
-		rootName = root.nodeName;
-		xmlns = $( root ).attr("xmlns");
-		schema = $( root ).attr("xsi:schemaLocation")
-		alert(schema);
 	});
 	
 }
@@ -171,15 +66,28 @@ function createNew(href, newtype) {
 		fid = $(href).attr("id")
 		fid = fid.replace("-file", "");
 		fid = fid.replace("-dir", "");
-		loc = findFileBlock(fid, fileObj);
+		alert(fid);
+		
+		foundFile = false;
+		loc = "";
+		$.each(config["projects"], function(a, p) {
+			f = findFileBlock(fid, p["project-files"]);
+			if (typeof f != 'undefined') {
+				// Found it.  Set the super var and exit this loop.
+				loc = f;
+				foundFile = true;
+				return;
+			}
+		});
+	
+		//loc = findFileBlock(fid, fileObj);
 		alert(loc.filepath);
 		if (newwhat == "file") {
-			f = loc.filepath + a;
-			newfile = $.get("/newfile/", { file: f });
+			newfile = $.get("/newfile/", { filepath: loc.filepath, filename: a });
 			newfile.done(function(data) { 
 				response = data;
+				idiv = $("#info");
 				if (response.error) {
-					idiv = $("#info");
 					var messagediv = $('<div id="responsemessage" class="alert alert-danger">' + response.message + '</div>');
 					idiv.append(messagediv);
 					messagediv.fadeOut(15000, function() {
@@ -193,7 +101,28 @@ function createNew(href, newtype) {
 					});
 				}
 			});
+		} else if (newwhat == "directory") {
+			newdir = $.get("/newdir/", { filepath: loc.filepath, dirname: a });
+			newdir.done(function(data) { 
+				response = data;
+				idiv = $("#info");
+				if (response.error) {
+					var messagediv = $('<div id="responsemessage" class="alert alert-danger">' + response.message + '</div>');
+					idiv.append(messagediv);
+					messagediv.fadeOut(15000, function() {
+						idiv.empty();
+					});
+				} else {
+					var messagediv = $('<div id="responsemessage" class="alert alert-success">New directory created.</div>');
+					idiv.append(messagediv);
+					messagediv.fadeOut(2000, function() {
+						idiv.empty();
+					});
+				}
+			});
 		}
+		
+		loadProjects();
 	}
 		 
 };
@@ -314,6 +243,107 @@ function fileObjToHTMLTree(fObj, el) {
 		}
 	});
 }
+
+function instantiateEditor() {
+	// Set up the editor
+	editortheme = "eclipse";
+	if ( config["editor"].theme ) {
+		theme = config["editor"].theme;
+	}
+
+	editorfontsize = 12;
+	if ( config["editor"].fontsize ) {
+		editorfontsize = config["editor"].fontsize;
+	}
+	EditSession = ace.require('ace/edit_session').EditSession; // this is not used here, but instantiated for later.
+	editor = ace.edit("ed1");
+	editor.setTheme("ace/theme/" + theme);
+	editor.setFontSize(editorfontsize);
+    editor.getSession().setMode("ace/mode/text");
+    editor.getSession().setValue("");
+    editor.resize()
+    editor.on("change", function(e) {
+		setUnsaved();
+	});
+	editor.commands.addCommand({
+		name: 'closeTab',
+		bindKey: {
+			win: 'Ctrl-W',
+			mac: 'Command-W',
+			sender: 'editor|cli'
+		},
+		exec: function(env, args, request) {
+			eTabs = $("#editorTabs");
+			li = eTabs.find("li.active").eq(0);
+			tab = eTabs.find("li.active a").eq(0);
+	
+			fid = tab.attr('href').replace("-eContent", "");
+			fid = fid.replace("#", "");
+			
+			if (openFiles[fid].savestatus == "saved") {
+				// Let's close the tab and destroy the editing session.
+				closeTab(li, fid);
+			} else {
+				var r=confirm("The file has changed and not been saved.  Do you really want to close this tab?");
+				if (r==true) {
+					closeTab(li, fid);
+				} else {
+					toggleTab(tab);
+				}
+			}
+		}
+	});
+	editor.commands.addCommand({
+		name: 'saveFile',
+		bindKey: {
+			win: 'Ctrl-S',
+			mac: 'Command-S',
+			sender: 'editor|cli'
+		},
+		exec: function(env, args, request) {
+			eTabs = $("#editorTabs");
+			li = eTabs.find("li.active").eq(0);
+			tab = eTabs.find("li.active a").eq(0);
+	
+			fid = tab.attr('href').replace("-eContent", "");
+			fid = fid.replace("#", "");
+			
+			if (openFiles[fid].savestatus == "edited") {
+				// Content has been edited, let's save it.
+				if ( openFiles[fid].filepath != "" ) {
+					content = editor.getSession().getValue();
+					$.post("/savefile/", { filepath: openFiles[fid].filepath, content: content } )
+						.done(function(data) {
+							response = data;
+							if (response.error) {
+								idiv = $("#info");
+								var messagediv = $('<div id="responsemessage" class="alert alert-danger">' + response.message + '</div>');
+								idiv.append(messagediv);
+								messagediv.fadeOut(15000, function() {
+									idiv.empty();
+								});
+							} else {
+								text = tab.html()
+								text = text.replace(" *", "");
+								tab.html(text);
+								tab.removeClass("alert-unsaved");
+								openFiles[fid].savestatus = "saved";
+								
+								idiv = $("#info");
+								var messagediv = $('<div id="responsemessage" class="alert alert-success">' + response.message + '</div>');
+								idiv.append(messagediv);
+								messagediv.fadeOut(2000, function() {
+									idiv.empty();
+								});
+							}
+						});
+				}
+			}
+		}
+	});
+	
+	openFiles["edtab"] = { fileid: "edtab", edsession: editor.getSession(), filename: "", filepath: "", savestatus: "saved" };
+};
 
 function loadProjects() {
 	divcontents = $("#files");
