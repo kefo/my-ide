@@ -7,12 +7,8 @@
 "projects": 
 	[
 		{
-			"project-name": "XML Edit & Validate",
-			"project-source": "/home/kefo/Desktop/Kevin/Active/xml-edit-validate/"
-		},
-		{ 
-			"project-name": "My IDE",
-			"project-source": "/home/kefo/Desktop/Kevin/Active/my-ide/"
+			"project-name": "Project name",
+			"project-source": "/path/to/files/must/end/in/slash/"
 		}
 	]
 
