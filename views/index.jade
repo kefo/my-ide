@@ -7,7 +7,7 @@ head
     //
        Bootstrap core CSS 
     link(href='static/css/bootstrap.css', rel='stylesheet')
-    title Editor
+    title IDE
     script(src='static/js/jquery-1.10.2.min.js', type='text/javascript', charset='utf-8').
     script(src='static/js/bootstrap.min.js', type='text/javascript', charset='utf-8').
     script(src='static/js/ace-builds/src/ace.js', type='text/javascript', charset='utf-8').
@@ -21,11 +21,9 @@ head
           span.icon-bar
           span.icon-bar
           span.icon-bar
-        a.navbar-brand(style='max-width: 300px;', href='/')
-          | XML Create 
-          i &amp; 
-          | Validate
+        a.navbar-brand(style='max-width: 300px;', href='/') IDE
         .nav-collapse.collapse.pull-right
+        //
           ul.nav.nav-pills
             li
               a(href='#') Open
