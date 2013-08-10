@@ -3,7 +3,7 @@ $(document).ready(init);
 function init() {
 	
 	acemodes = new Object();
-	getacemodes = $.getJSON('static/js/m.json');
+	getacemodes = $.getJSON('static/js/my-ide/modes.json');
 	getacemodes.done(function(data) { 
 		acemodes = data;
 	});
