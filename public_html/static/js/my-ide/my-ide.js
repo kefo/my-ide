@@ -2,40 +2,24 @@ $(document).ready(init);
 
 function init() {
 	
-	// Capture tab click events.
-	$("#editorTabs").on("click", function(e) {
-		toggleTab($(e.target));
-	});
-	
 	acemodes = new Object();
 	getacemodes = $.getJSON('static/js/m.json');
 	getacemodes.done(function(data) { 
 		acemodes = data;
 	});
 	
-	var projects = '{"project": [ \
-			{ \
-				"project-name": "ID-2013", \
-				"project-source": "/home/kefo/Desktop/elasticsearch/id-main-ide/" \
-			}, \
-			{ \
-				"project-name": "BFI Website", \
-				"project-source": "/home/kefo/Desktop/bfi/bibframe-model/bfweb/" \
-			} \
-		] \
-	}';
+	fileObj = new Object();
+	config = new Object();
+	getconfig = $.getJSON('config.json');
+	getconfig.done(function(data) { 
+		config = data;
+		loadProjects();
+	});
 	
-	projs = new Object();
-	projs = $.parseJSON(projects);
-	//alert(projects.project[0]["project-name"]);
-		
-	$(function () {
-		$(document).on('shown', 'a[data-toggle="tab"]', function (e) {
-			alert("this ran");
-			toggleTab(e.target); // activated tab
-			//e.relatedTarget; // previous tab
-		})
-	});	
+	// Capture tab click events.
+	$("#editorTabs").on("click", function(e) {
+		toggleTab($(e.target));
+	});
 	
 	$(window).bind('beforeunload', function() {
 		editing = false;
@@ -51,20 +35,12 @@ function init() {
 		}
 	});
 	
-	fileObj = new Object();
-	loadProjects();
-	//getDir(projs.project[0]["project-source"]);
-	
-	xml = '<?xml version="1.0" encoding="UTF-8"?><mods xmlns="http://www.loc.gov/mods/v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-4.xsd" version="3.4"><titleInfo><title>Gacha Gacha</title></titleInfo><titleInfo type="uniform" nameTitleGroup="1"><title>Gachagacha. English</title></titleInfo><name type="personal" usage="primary" nameTitleGroup="1"><namePart>Tamakoshi, Hiroyuki.</namePart></name><name type="personal"><namePart>Ury, David.</namePart></name><typeOfResource>text</typeOfResource><genre authority="marcgt">comic strip</genre><genre authority="">Graphic novels.</genre><originInfo><place><placeTerm type="code" authority="marccountry">nyu</placeTerm></place><place><placeTerm type="text">New York, N.Y</placeTerm></place><publisher>Ballantine Books</publisher><dateIssued>&lt;c2005-c2008&gt;</dateIssued><dateIssued point="start" encoding="marc">2006</dateIssued><dateIssued point="end" encoding="marc">9999</dateIssued><issuance>monographic</issuance></originInfo><language><languageTerm type="code" authority="iso639-2b">eng</languageTerm></language><language objectPart="translation"><languageTerm type="code" authority="iso639-2b">jpn</languageTerm></language><physicalDescription><form authority="marcform">print</form><extent>v. &lt;1-6, 8,9,11&gt; : chiefly ill. ; 21 cm.</extent></physicalDescription><abstract>Lately, Kouhei can\'t get his friend Kurara out of his mind. Even though he has known her since elementary school, all of a sudden, ever since she came back from summer vacation, he has been crushing on her hard. But something is different about Kurara-she is acting very oddly. Sometimes she seems wholesome, pure, and innocent, and at other times she is extremely forward and unabashed. Kouhei soon learns that Kurara has multiple personalities-and decides to help her keep her secret from their classmates. But Kouhei finds himself struggling between helping Kurara as a friend and trying to win her heart ... which is a challenge, since she has many!</abstract><tableOfContents>v. 6,9. The next revolution</tableOfContents><targetAudience>Rating: OT ages 16+</targetAudience><note type="statement of responsibility" altRepGroup="00">Hiroyuki Tamakoshi ; translated and adapted by David Ury ; lettered by North Market Street Graphics.</note><note>"DEL REY."</note><note>Vol. 2-3 lettered by Wilson Ramos, Jr. ; v. &lt;4-5&gt;- lettered by Patrice Sheridan ; v. 9 lettered by North Market Street Graphics ; v. 11 lettered by North Market Street Graphics.</note><note>Vol. 1 published in 2006.</note><note>"Mature content"---Vol. 5, cover p. 1.</note><classification authority="lcc">PN6790.J33 T37 2005</classification><classification authority="ddc" edition="22">741.5/952</classification><identifier type="isbn">9780345492333 (v. 1 : pbk.)</identifier><identifier type="isbn">9780345486226 (v. 2 : pbk.)</identifier><identifier type="isbn">0345486226 (v. 2 : pbk.)</identifier><identifier type="isbn">9780345486233 (v. 3 : pbk.)</identifier><identifier type="isbn">0345486234 (v. 3 : pbk.)</identifier><identifier type="isbn">9780345493224 (v. 4 : pbk.)</identifier><identifier type="isbn">034548679X (v. 4 : pbk.)</identifier><identifier type="isbn">9780345493231 (v. 5 :pbk)</identifier><identifier type="isbn">0345492323 (v. 5 : pbk.)</identifier><identifier type="isbn">9780345501707 (v. 8 : pbk.)</identifier><identifier type="isbn">9780345506719 (v. 9 : pbk.)</identifier><identifier type="isbn">9780345515858 (v. 11 : pbk.)</identifier><identifier type="lccn">2005904335</identifier><identifier type="oclc">ocm63257616</identifier><identifier type="oclc">63257616</identifier><relatedItem><location><url displayLabel="Publisher description">http://www.loc.gov/catdir/enhancements/fy0710/2005904335-d.html</url></location></relatedItem><recordInfo><descriptionStandard>aacr</descriptionStandard><recordContentSource authority="marcorg">IOS</recordContentSource><recordCreationDate encoding="marc">070116</recordCreationDate><recordChangeDate encoding="iso8601">20110120111835.0</recordChangeDate><recordIdentifier>14699176</recordIdentifier><recordOrigin>Converted from MARCXML to MODS version 3.4 using MARC21slim2MODS3-4.xsl (Revision 1.85 2013/03/07)</recordOrigin></recordInfo></mods>';
-	
 	// Set up the editor
-	//VirtualRenderer = ace.require('ace/virtual_renderer').VirtualRenderer;
 	EditSession = ace.require('ace/edit_session').EditSession;
-	//Editor = ace.require('ace/editor').Editor;
 	editor = ace.edit("ed1");
 	editor.setTheme("ace/theme/eclipse");
-    editor.getSession().setMode("ace/mode/xml");
-    editor.getSession().setValue(xml);
+    editor.getSession().setMode("ace/mode/text");
+    editor.getSession().setValue("");
     editor.resize()
     editor.on("change", function(e) {
 		setUnsaved();
@@ -227,22 +203,18 @@ function fileClickAction(href) {
 	//file = findFileBlock(fid, fileObj);
 	foundFile = false;
 	file = "";
-	$.each(projs, function(i, proj) {
-		$.each(proj, function(a, p) {
-			f = findFileBlock(fid, p["project-files"]);
-			if (typeof f != 'undefined') {
-				// Found it.  Set the super var and exit this loop.
-				file = f;
-				foundFile = true;
-				return;
-			}
-		})
-		if (foundFile) { return; }
-	});
+	$.each(config["projects"], function(a, p) {
+		f = findFileBlock(fid, p["project-files"]);
+		if (typeof f != 'undefined') {
+			// Found it.  Set the super var and exit this loop.
+			file = f;
+			foundFile = true;
+			return;
+		}
+	})
 	//alert(fBlock.filepath);
 	
 	if (file.isdir) {
-		//alert( href.parent().find("ul").eq(0).attr('class') );
 		href.parent().toggleClass('dirclosed diropen');
 		href.parent().find("ul").eq(0).toggleClass('hide open');
 	} else {
@@ -295,8 +267,7 @@ function fileClickAction(href) {
 		
 		
 	}
-	//alert(fid);
-	//alert(JSON.stringify(fileObj));
+
 }
 
 function findFileBlock(fid, fObj) {
@@ -322,18 +293,6 @@ function findFileBlock(fid, fObj) {
 	}
 }
 
-function getDir(dirtoget) {
-	getdir = $.get("/directory/", { dir: dirtoget });
-	getdir.done(function(data) { 
-		fileObj = data;
-		divcontents = $("#files");
-		divcontents.empty();
-		var ul = $('<ul class="open"></ul>');
-		divcontents = divcontents.append(ul);
-		fileObjToHTMLTree(fileObj, ul);
-	});
-}
-
 function fileObjToHTMLTree(fObj, el) {
 	file = fObj.file;
 	$.each(file, function(i, obj) {
@@ -357,50 +316,36 @@ function fileObjToHTMLTree(fObj, el) {
 }
 
 function loadProjects() {
-	$.each(projs, function(i, proj) {
-		
-		divcontents = $("#files");
-		divcontents.empty();
-		var div = $('<div></div>');
-		divcontents.append(div);
-		
-		$.each(proj, function(a, p) {
-			pname = p["project-name"];
-			pdir = p["project-source"];
+	divcontents = $("#files");
+	divcontents.empty();
+	var div = $('<div></div>');
+	divcontents.append(div);
+	
+	$.each(config["projects"], function(i, p) {
+		pname = p["project-name"];
+		pdir = p["project-source"];
 			
-			var mainul = $('<ul class="open"></ul>');
-			div.append(mainul);
+		var mainul = $('<ul class="open"></ul>');
+		div.append(mainul);
 		
-			getdir = $.get("/directory/", { dir: pdir });
-			getdir.done(function(data) { 
+		getdir = $.get("/directory/", { dir: pdir });
+		getdir.done(function(data) { 
 				
-				fObj = data;
-				p["project-files"] = fObj;
+			fObj = data;
+			p["project-files"] = fObj;
 				
-				var li = $('<li class="dirclosed"><a id="' + fObj.fileid + '" href="#">' + fObj.filename + '</a> <a id="' + fObj.fileid + '-dir" href="#"><img src="static/images/folder-new-7.png" title="Create directory here" /></a> <a id="' + fObj.fileid + '-file" href="#"><img src="static/images/document-new-6.png" title="Create file here" /></a></li>');
-				mainul.append(li);
-				$("#" + fObj.fileid).click(function() { fileClickAction($(this)); });
-				$("#" + fObj.fileid + "-dir").click(function() { createNew($(this), "dir"); });
-				$("#" + fObj.fileid + "-file").click(function() { createNew($(this), "file"); });
+			var li = $('<li class="dirclosed"><a id="' + fObj.fileid + '" href="#">' + fObj.filename + '</a> <a id="' + fObj.fileid + '-dir" href="#"><img src="static/images/folder-new-7.png" title="Create directory here" /></a> <a id="' + fObj.fileid + '-file" href="#"><img src="static/images/document-new-6.png" title="Create file here" /></a></li>');
+			mainul.append(li);
+			$("#" + fObj.fileid).click(function() { fileClickAction($(this)); });
+			$("#" + fObj.fileid + "-dir").click(function() { createNew($(this), "dir"); });
+			$("#" + fObj.fileid + "-file").click(function() { createNew($(this), "file"); });
 			
-				var ul = $('<ul class="hide"></ul>');
-				li.append(ul);
-				fileObjToHTMLTree(fObj, ul);
+			var ul = $('<ul class="hide"></ul>');
+			li.append(ul);
+			fileObjToHTMLTree(fObj, ul);
 			
-			});
-		})
+		});
 	});
-	/*
-	 * getdir = $.get("/directory/", { dir: dirtoget });
-	getdir.done(function(data) { 
-		fileObj = data;
-		divcontents = $("#files");
-		divcontents.empty();
-		var ul = $('<ul class="open"></ul>');
-		divcontents = divcontents.append(ul);
-		fileObjToHTMLTree(fileObj, ul);
-	});
-	*/
 }
 
 function setUnsaved() {
@@ -434,6 +379,7 @@ function toggleTab(href) {
 		
 		if (openFiles[fid]) {
 			editor.setSession(openFiles[fid].edsession);
+			editor.focus();
 			editor.resize();
 		} else {
 			alert(JSON.stringify(href));

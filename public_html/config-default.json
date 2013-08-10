@@ -1,0 +1,19 @@
+{
+"editor":
+	{
+		"fontsize": 12,
+		"theme": "eclipse"
+	},
+"projects": 
+	[
+		{
+			"project-name": "XML Edit & Validate",
+			"project-source": "/home/kefo/Desktop/Kevin/Active/xml-edit-validate/"
+		},
+		{ 
+			"project-name": "My IDE",
+			"project-source": "/home/kefo/Desktop/Kevin/Active/my-ide/"
+		}
+	]
+
+}

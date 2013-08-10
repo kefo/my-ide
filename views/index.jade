@@ -11,12 +11,8 @@ head
     script(src='static/js/jquery-1.10.2.min.js', type='text/javascript', charset='utf-8').
     script(src='static/js/bootstrap.min.js', type='text/javascript', charset='utf-8').
     script(src='static/js/ace-builds/src/ace.js', type='text/javascript', charset='utf-8').
-    //
-      script(data-main='static/js/ace/lib/ace/ace', src='static/js/require.js').
-    //
-      script(src='static/js/ace/lib/ace/ace.js', data-ace-base='src', type='text/javascript', charset='utf-8').
     script(src='static/js/vkbeautify.0.99.00.beta.js', type='text/javascript', charset='utf-8').
-    script(src='static/js/ide.js', type='text/javascript', charset='utf-8').
+    script(src='static/js/my-ide/my-ide.js', type='text/javascript', charset='utf-8').
     link(href='static/css/ide.css', rel='stylesheet')
   body
     .navbar.navbar-fixed-top(style='background-color: white;')
@@ -53,10 +49,9 @@ head
           #ed.col-lg-10(style='position:absolute; height: auto; bottom: 0px; top: 70px; right: 0px; margin-top: 10px; margin-bottom: 10px; margin-left: 0px; margin-right: 0px;')
             ul#editorTabs.nav.nav-tabs
               li.active
-                a(id='edtab-eContentID', href='#edtab', data-toggle="tab") New
+                a(id='edtab-eContentID', href='#edtab', data-toggle="tab") Scratch
             #editorContents.tab-content
               #edtab.tab-pane.active
                 .starter-template
                   pre(id='ed1', class='editor')
-                    &lt;?xml version="1.0"?&gt;
 
