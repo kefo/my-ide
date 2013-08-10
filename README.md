@@ -10,7 +10,7 @@ Besides installing the node js app
 
 [ace-builds](https://github.com/ajaxorg/ace-builds/) will need to be cloned into 
 
-public_html/static/js/
+    public_html/static/js/
 
 
 
