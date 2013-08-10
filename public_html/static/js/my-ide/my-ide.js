@@ -66,7 +66,6 @@ function createNew(href, newtype) {
 		fid = $(href).attr("id")
 		fid = fid.replace("-file", "");
 		fid = fid.replace("-dir", "");
-		alert(fid);
 		
 		foundFile = false;
 		loc = "";
@@ -80,8 +79,6 @@ function createNew(href, newtype) {
 			}
 		});
 	
-		//loc = findFileBlock(fid, fileObj);
-		alert(loc.filepath);
 		if (newwhat == "file") {
 			newfile = $.get("/newfile/", { filepath: loc.filepath, filename: a });
 			newfile.done(function(data) { 
