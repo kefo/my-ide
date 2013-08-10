@@ -49,13 +49,52 @@ server.get('/getfile/', function (req, res){
 	res.send(f);
 });
 
+server.get('/newdir/', function(req, res) {
+	
+	var fpath = req.query.filepath;
+	var dname = req.query.dirname;
+	var dirpath = fpath + dname;
+	
+	if ( dname.match("/"+"$") != "/" ) {
+		dname += "/";
+	}
+
+	console.log("Creating new directory: " + dirpath);
+		
+	var file = new Object();
+	file.filepath = dirpath;
+	file.filename = dname;
+	fid = file.filepath.replace(/([\.\s\-\/:']*)/g,"");
+	file.fileid = fid;
+	file.isdir = true;
+	
+	var response = new Object();
+	response.filepath = dirpath;
+	response.error = false;
+	
+	fs.mkdir(dirpath, function (err) {
+		if (err) {
+			console.log(err);
+			response.error = true;
+			response.message = err;
+			console.log("Failed to create new directory: " + err);
+		} else {
+			response.message = "Directory created.";
+			response.file = file;
+			console.log("Directory created: " + dirpath);
+		}
+		res.send(response);
+	});
+	
+});
+
 server.get('/newfile/', function(req, res) {
 	
-	var fpath = req.query.filepath
-	var fname = req.query.filename
+	var fpath = req.query.filepath;
+	var fname = req.query.filename;
 	var filepath = fpath + fname;
 	
-	console.log("Creating new file: " + f);
+	console.log("Creating new file: " + filepath);
 		
 	var file = new Object();
 	file.filepath = filepath;
@@ -65,7 +104,7 @@ server.get('/newfile/', function(req, res) {
 	file.isdir = false;
 	
 	var response = new Object();
-	response.filepath = f;
+	response.filepath = filepath;
 	response.error = false;
 	
 	fs.writeFile(filepath, "", function (err) {
@@ -73,7 +112,7 @@ server.get('/newfile/', function(req, res) {
 			console.log(err);
 			response.error = true;
 			response.message = err;
-			console.log("Failed to create new file: " + error);
+			console.log("Failed to create new file: " + err);
 		} else {
 			response.message = "File created.";
 			response.file = file;
