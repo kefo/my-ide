@@ -8,7 +8,10 @@
 	[
 		{
 			"project-name": "Project name",
-			"project-source": "/path/to/files/must/end/in/slash/"
+			"project-source": "/path/to/files/must/end/in/slash/",
+			"ignore-dirs": [
+			    ""
+			 ]
 		}
 	]
 
