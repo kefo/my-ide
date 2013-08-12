@@ -153,9 +153,11 @@ function fileClickAction(href) {
 		} else {
 			var periods = file.filename.match(/\./g);  
 			ext = file.filename;
-			for (var i = 0; i < periods.length; i++) {
-				ext = file.filename.substring((file.filename.indexOf('.') + 1));
-			}
+            ext = file.filename.substring(file.filename.lastIndexOf("."));
+            ext = ext.replace('.', '');
+			//for (var i = 0; i < periods.length; i++) {
+			//	ext = file.filename.substring((file.filename.indexOf('.') + 1));
+			//}
 			//alert(ext);
 		
 			getfile = $.get("/getfile/", { file: file.filepath });
@@ -182,6 +184,7 @@ function fileClickAction(href) {
 				var es = new EditSession(data, "ace/mode/" + arr[0]);
 				editor.setSession(es);
 				editor.resize();
+				//alert(arr[0]);
 
 				openFiles[file.fileid] = { fileid: file.fileid, edsession: es, filename: file.filename, filepath: file.filepath, savestatus: "saved" };
 				
@@ -369,7 +372,7 @@ function loadProjects() {
 			fObj = data;
 			p["project-files"] = fObj;
 				
-			var li = $('<li class="dirclosed"><a id="' + fObj.fileid + '" href="#">' + fObj.filename + '</a> <a id="' + fObj.fileid + '-dir" href="#"><img src="static/images/folder-new-7.png" title="Create directory here" /></a> <a id="' + fObj.fileid + '-file" href="#"><img src="static/images/document-new-6.png" title="Create file here" /></a></li>');
+			var li = $('<li class="dirclosed"><a id="' + fObj.fileid + '" href="#">' + p["project-name"] + '</a> <a id="' + fObj.fileid + '-dir" href="#"><img src="static/images/folder-new-7.png" title="Create directory here" /></a> <a id="' + fObj.fileid + '-file" href="#"><img src="static/images/document-new-6.png" title="Create file here" /></a></li>');
 			mainul.append(li);
 			$("#" + fObj.fileid).click(function() { fileClickAction($(this)); });
 			$("#" + fObj.fileid + "-dir").click(function() { createNew($(this), "dir"); });
