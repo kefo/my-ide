@@ -354,11 +354,16 @@ function loadProjects() {
 	$.each(config["projects"], function(i, p) {
 		pname = p["project-name"];
 		pdir = p["project-source"];
+		ignored = p["ignore-dirs"];
+		
+		if (!ignored) {
+			ignored = [''];
+		}
 			
 		var mainul = $('<ul class="open"></ul>');
 		div.append(mainul);
 		
-		getdir = $.get("/directory/", { dir: pdir });
+		getdir = $.get("/directory/", { dir: pdir, ignoredirs: ignored });
 		getdir.done(function(data) { 
 				
 			fObj = data;

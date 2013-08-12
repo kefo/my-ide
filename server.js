@@ -35,8 +35,9 @@ server.get('/', function (req, res){
 server.get('/directory/', function (req, res){
 	console.log("Entered directory function.");
 	d = req.query.dir
+	ignored = req.query.ignoredirs
 	
-	f = readDirRecursively(d);
+	f = readDirRecursively(d, ignored);
 	
 	console.log(f);
 	res.send(f);
@@ -158,7 +159,7 @@ server.get('/about/', function (req, res){
 server.listen(3000);
 console.log('Server started; Listening on port 3000');
 
-function readDirRecursively(d) {
+function readDirRecursively(d, ignored) {
 	
 	var f = new Object();
 	f.filepath = d;
@@ -189,9 +190,11 @@ function readDirRecursively(d) {
 			finfo.isdir = false;
 			f.file.push(finfo);
 		} else if (stats.isDirectory()) {
-			fpath = d + file + "/";
-			children = readDirRecursively(fpath)
-			f.file.push(children);
+		    if (ignored.indexOf(file) == -1) {
+			    fpath = d + file + "/";
+			    children = readDirRecursively(fpath, ignored)
+			    f.file.push(children);
+		    }
 		}
 	});
 	return f;
