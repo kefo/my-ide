@@ -37,7 +37,9 @@ server.get('/directory/', function (req, res){
 	d = req.query.dir
 	ignored = req.query.ignoredirs
 	
-	f = readDirRecursively(d, ignored);
+	ignoreext = ["pyc", "png", "gif", "jpg", "jpeg", "class"];
+	
+	f = readDirRecursively(d, ignored, ignoreext);
 	
 	console.log(f);
 	res.send(f);
@@ -159,7 +161,7 @@ server.get('/about/', function (req, res){
 server.listen(3000);
 console.log('Server started; Listening on port 3000');
 
-function readDirRecursively(d, ignored) {
+function readDirRecursively(d, ignored, ignoreext) {
 	
 	var f = new Object();
 	f.filepath = d;
@@ -182,19 +184,23 @@ function readDirRecursively(d, ignored) {
 		//console.log(file);
 		stats = fs.statSync(d + file);
 		if (stats.isFile()) {
-			finfo = new Object();
-			finfo.filepath = d + file;
-			finfo.filename = file;
-			fid = finfo.filepath.replace(/([\.\s\-\/:'\(\)]*)/g,"");
-			finfo.fileid = fid;
-			finfo.isdir = false;
-			f.file.push(finfo);
+            ext = file.substring(file.lastIndexOf("."));
+            ext = ext.replace('.', '');
+            if (ignoreext.indexOf(ext) == -1) {
+                finfo = new Object();
+                finfo.filepath = d + file;
+                finfo.filename = file;
+                fid = finfo.filepath.replace(/([\.\s\-\/:'\(\)]*)/g,"");
+                finfo.fileid = fid;
+                finfo.isdir = false;
+                f.file.push(finfo);
+            }
 		} else if (stats.isDirectory()) {
-		    if (ignored.indexOf(file) == -1) {
-			    fpath = d + file + "/";
-			    children = readDirRecursively(fpath, ignored)
-			    f.file.push(children);
-		    }
+            if (ignored.indexOf(file) == -1) {
+                fpath = d + file + "/";
+                children = readDirRecursively(fpath, ignored, ignoreext);
+                f.file.push(children);
+            }
 		}
 	});
 	return f;
