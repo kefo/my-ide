@@ -64,7 +64,7 @@ server.get('/newdir/', function(req, res) {
 	var file = new Object();
 	file.filepath = dirpath;
 	file.filename = dname;
-	fid = file.filepath.replace(/([\.\s\-\/:']*)/g,"");
+	fid = file.filepath.replace(/([\.\s\-\/:'\(\)]*)/g,"");
 	file.fileid = fid;
 	file.isdir = true;
 	
@@ -99,7 +99,7 @@ server.get('/newfile/', function(req, res) {
 	var file = new Object();
 	file.filepath = filepath;
 	file.filename = fname;
-	fid = file.filepath.replace(/([\.\s\-\/:']*)/g,"");
+	fid = file.filepath.replace(/([\.\s\-\/:'\(\)]*)/g,"");
 	file.fileid = fid;
 	file.isdir = false;
 	
@@ -184,7 +184,7 @@ function readDirRecursively(d) {
 			finfo = new Object();
 			finfo.filepath = d + file;
 			finfo.filename = file;
-			fid = finfo.filepath.replace(/([\.\s\-\/:']*)/g,"");
+			fid = finfo.filepath.replace(/([\.\s\-\/:'\(\)]*)/g,"");
 			finfo.fileid = fid;
 			finfo.isdir = false;
 			f.file.push(finfo);
