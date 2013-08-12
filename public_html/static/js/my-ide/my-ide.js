@@ -220,25 +220,28 @@ function findFileBlock(fid, fObj) {
 }
 
 function fileObjToHTMLTree(fObj, el) {
-	file = fObj.file;
-	$.each(file, function(i, obj) {
-		//alert(obj.filename);
-		if (obj.isdir) {
-			var li = $('<li class="dirclosed"><a id="' + obj.fileid + '" href="#">' + obj.filename + '</a> <a id="' + obj.fileid + '-dir" href="#"><img src="static/images/folder-new-7.png" title="Create directory here" /></a> <a id="' + obj.fileid + '-file" href="#"><img src="static/images/document-new-6.png" title="Create file here" /></a></li>');
-			el.append(li);
-			$("#" + obj.fileid).click(function() { fileClickAction($(this)); });
-			$("#" + obj.fileid + "-dir").click(function() { createNew($(this), "dir"); });
-			$("#" + obj.fileid + "-file").click(function() { createNew($(this), "file"); });
-			
-			var ul = $('<ul class="hide"></ul>');
-			li.append(ul);
-			fileObjToHTMLTree(obj, ul);
-		} else {
-			var li = $('<li class="file"><a id="' + obj.fileid + '" href="#">' + obj.filename + '</a></li>');
-			el.append(li);
-			$("#" + obj.fileid).click(function() { fileClickAction($(this)); });
-		}
-	});
+	if (fObj.isdir) {
+		// We have a directory.  I believe we should always have a directory, no?
+		file = fObj.file;
+		$.each(file, function(i, obj) {
+			//alert(obj.filename);
+			if (obj.isdir) {
+				var li = $('<li class="dirclosed"><a id="' + obj.fileid + '" href="#">' + obj.filename + '</a> <a id="' + obj.fileid + '-dir" href="#"><img src="static/images/folder-new-7.png" title="Create directory here" /></a> <a id="' + obj.fileid + '-file" href="#"><img src="static/images/document-new-6.png" title="Create file here" /></a></li>');
+				el.append(li);
+				$("#" + obj.fileid).click(function() { fileClickAction($(this)); });
+				$("#" + obj.fileid + "-dir").click(function() { createNew($(this), "dir"); });
+				$("#" + obj.fileid + "-file").click(function() { createNew($(this), "file"); });
+				
+				var ul = $('<ul class="hide"></ul>');
+				li.append(ul);
+				fileObjToHTMLTree(obj, ul);
+			} else {
+				var li = $('<li class="file"><a id="' + obj.fileid + '" href="#">' + obj.filename + '</a></li>');
+				el.append(li);
+				$("#" + obj.fileid).click(function() { fileClickAction($(this)); });
+			}
+		});
+	}
 }
 
 function instantiateEditor() {
