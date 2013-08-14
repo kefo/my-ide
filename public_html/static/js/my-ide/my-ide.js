@@ -182,6 +182,7 @@ function fileClickAction(href) {
 			
 				// Set up a new edit session
 				var es = new EditSession(data, "ace/mode/" + arr[0]);
+                es.setUndoManager(new UndoManager());
 				editor.setSession(es);
 				editor.resize();
 				//alert(arr[0]);
@@ -249,6 +250,10 @@ function fileObjToHTMLTree(fObj, el) {
 
 function instantiateEditor() {
 	// Set up the editor
+	
+	EditSession = ace.require('ace/edit_session').EditSession; // this is not used here, but instantiated for later.
+	UndoManager = ace.require('ace/undomanager').UndoManager; // this is not used here, but instantiated for later.
+	
 	editortheme = "eclipse";
 	if ( config["editor"].theme ) {
 		theme = config["editor"].theme;
@@ -258,7 +263,7 @@ function instantiateEditor() {
 	if ( config["editor"].fontsize ) {
 		editorfontsize = config["editor"].fontsize;
 	}
-	EditSession = ace.require('ace/edit_session').EditSession; // this is not used here, but instantiated for later.
+	
 	editor = ace.edit("ed1");
 	editor.setTheme("ace/theme/" + theme);
 	editor.setFontSize(editorfontsize);
