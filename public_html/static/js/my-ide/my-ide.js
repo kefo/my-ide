@@ -51,6 +51,11 @@ function closeTab(tab, fileid) {
 		$("#edtab").find("a").eq(0);
 	}
 	li.remove();
+	
+	fnamediv = $("#filename");
+	var fdiv = $('<div></div>');
+	fnamediv.html(fdiv);
+				
 	delete openFiles[fid];
 	toggleTab(newhref);	
 }
@@ -428,6 +433,15 @@ function toggleTab(href) {
 			editor.setSession(openFiles[fid].edsession);
 			editor.focus();
 			editor.resize();
+			
+			fnamediv = $("#filename");
+			if (openFiles[fid].filepath) {
+                fdiv = $('<div id="fmessage" class="alert alert-info" style="padding: 1px 20px 1px 1px; margin-bottom: 5px;">' + openFiles[fid].filepath + '</div>');
+                fnamediv.html(fdiv);
+			} else {
+                fdiv = $('<div></div>');
+                fnamediv.html(fdiv);
+			}
 		} else {
 			alert(JSON.stringify(href));
 		}
