@@ -189,6 +189,10 @@ function fileClickAction(href) {
 
 				openFiles[file.fileid] = { fileid: file.fileid, edsession: es, filename: file.filename, filepath: file.filepath, savestatus: "saved" };
 				
+				fnamediv = $("#filename");
+				var fdiv = $('<div id="fmessage" class="alert alert-info" style="padding: 1px 20px 1px 1px; margin-bottom: 5px;">' + file.filepath + '</div>');
+				fnamediv.html(fdiv);
+				
 				a = li.find("a").eq(0);
 				toggleTab(a);
 			});
