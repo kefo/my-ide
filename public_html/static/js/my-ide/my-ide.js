@@ -24,6 +24,7 @@ function init() {
 	$("#editorTabs").on("click", function(e) {
 		toggleTab($(e.target));
 	});
+
 	
 	$(window).bind('beforeunload', function() {
 		editing = false;
@@ -282,6 +283,7 @@ function instantiateEditor() {
     editor.on("change", function(e) {
 		setUnsaved();
 	});
+    //editor.commands.bindKey("Ctrl-Shift-Space", "startAutocomplete");
 	editor.commands.addCommand({
 		name: 'closeTab',
 		bindKey: {
