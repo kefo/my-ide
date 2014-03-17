@@ -7,7 +7,7 @@
 	 { "autohotkey": [] },
 	 { "batchfile": [] },
 	 { "c9search": [] },
-	 { "c_cpp": [] },
+	 { "c_cpp": ["cpp"] },
 	 { "clojure": [] },
 	 { "cobol": [] },
 	 { "coffee": [] },
