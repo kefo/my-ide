@@ -1,6 +1,7 @@
 
 config.json
 
+.DS_Store
 node_modules
 ace-builds
 ace
