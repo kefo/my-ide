@@ -20,25 +20,6 @@ server.use(express.static(path.join(__dirname, 'public_html')));
 server.set('views', __dirname + '/views');
 server.set('view engine', 'pug');
 
-
-/*
-server.configure(function () {
-  server.set('views', __dirname + '/views');
-  server.set('view engine', 'jade');
-  server.use(express.bodyParser());
-});
-
-server.configure('development', function () {
-  server.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-  server.use(express.static(__dirname + '/public_html'));
-});
-
-server.configure('production', function () {
-  server.use(express.errorHandler());
-  server.use(express.static(__dirname + '/public_html', {maxAge: 60*15*1000}));
-});
-*/
-
 server.get('/', function (req, res){
   res.render('index', {
     title: 'IDE'
@@ -56,7 +37,6 @@ server.get('/directory/', function (req, res){
 	
 	console.log(f);
 	res.status(200).send(f);
-	//res.send(f);
 });
 
 server.get('/getfile/', function (req, res){
@@ -64,7 +44,6 @@ server.get('/getfile/', function (req, res){
 	file = req.query.file
 	f = fs.readFileSync(file)
 	res.status(200).send(f);
-	//res.send(f);
 });
 
 server.get('/newdir/', function(req, res) {
@@ -102,7 +81,6 @@ server.get('/newdir/', function(req, res) {
 			console.log("Directory created: " + dirpath);
 		}
 		res.status(200).send(response);
-		//res.send(response);
 	});
 	
 });
@@ -138,7 +116,6 @@ server.get('/newfile/', function(req, res) {
 			console.log("File created: " + filepath);
 		}
 		res.status(200).send(response);
-		//res.send(response);
 	});
 	
 });
@@ -164,7 +141,7 @@ server.post('/savefile/', function(req, res) {
 			response.message = "File saved.";
 			console.log("File saved: " + filepath);
 		}
-		res.send(response);
+		res.status(200).send(response);
 	});
 	
 });
