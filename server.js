@@ -2,7 +2,9 @@
 var express = require('express'),
     fs = require('fs'),
 	http = require('http'),
-    path = require('path');
+    path = require('path'),
+    bodyParser = require('body-parser');
+
 
 // establish server
 var express = require('express');
@@ -10,6 +12,16 @@ var fs = require('fs');
 var server = express();
 
 // configure application
+server.use(bodyParser.json());
+server.use(bodyParser.urlencoded({ extended: false }));
+server.use(express.static(path.join(__dirname, 'public_html')));
+
+// view engine setup
+server.set('views', __dirname + '/views');
+server.set('view engine', 'pug');
+
+
+/*
 server.configure(function () {
   server.set('views', __dirname + '/views');
   server.set('view engine', 'jade');
@@ -25,6 +37,7 @@ server.configure('production', function () {
   server.use(express.errorHandler());
   server.use(express.static(__dirname + '/public_html', {maxAge: 60*15*1000}));
 });
+*/
 
 server.get('/', function (req, res){
   res.render('index', {
@@ -42,14 +55,16 @@ server.get('/directory/', function (req, res){
 	f = readDirRecursively(d, ignored, ignoreext);
 	
 	console.log(f);
-	res.send(f);
+	res.status(200).send(f);
+	//res.send(f);
 });
 
 server.get('/getfile/', function (req, res){
 	console.log("Entered file function.");
 	file = req.query.file
 	f = fs.readFileSync(file)
-	res.send(f);
+	res.status(200).send(f);
+	//res.send(f);
 });
 
 server.get('/newdir/', function(req, res) {
@@ -86,7 +101,8 @@ server.get('/newdir/', function(req, res) {
 			response.file = file;
 			console.log("Directory created: " + dirpath);
 		}
-		res.send(response);
+		res.status(200).send(response);
+		//res.send(response);
 	});
 	
 });
@@ -121,7 +137,8 @@ server.get('/newfile/', function(req, res) {
 			response.file = file;
 			console.log("File created: " + filepath);
 		}
-		res.send(response);
+		res.status(200).send(response);
+		//res.send(response);
 	});
 	
 });
