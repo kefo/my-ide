@@ -157,17 +157,25 @@ function fileClickAction(href) {
 				toggleTab(href);
 			}
 		} else {
-			var periods = file.filename.match(/\./g);  
-			ext = file.filename;
-            ext = file.filename.substring(file.filename.lastIndexOf("."));
-            ext = ext.replace('.', '');
-			//for (var i = 0; i < periods.length; i++) {
-			//	ext = file.filename.substring((file.filename.indexOf('.') + 1));
-			//}
-			//alert(ext);
-		
 			getfile = $.get("/getfile/", { file: file.filepath });
 			getfile.done(function(data) { 
+
+                // What type of file is this?
+    			ext = file.filename;
+	    		if (file.filename.lastIndexOf(".") === -1) {
+		    	    var firstLine = data.split('\n')[0];
+		    	    if (firstLine.indexOf('python') > -1) {
+		    	        ext = "py";
+		    	    } else if (firstLine.indexOf('php') > -1) {
+		    	        ext = "php";
+		    	    } else if (firstLine.indexOf('node') > -1) {
+		    	        ext = "js";
+		    	    }
+		    	} else {
+                    ext = file.filename.substring(file.filename.lastIndexOf("."));
+                    ext = ext.replace('.', '');
+    			}
+    			//alert(ext);
 			
 				// Set up the tab
 				eTabs = $("#editorTabs");
@@ -175,6 +183,7 @@ function fileClickAction(href) {
 				eTabs.append(li);
 					
 				//alert(JSON.stringify(acemodes));
+				//if (ext === '') {
 				var arr = [];
 				$.each(acemodes.mode, function(k, v) {
 					$.each(v, function(n, e) {
