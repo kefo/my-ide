@@ -78,7 +78,7 @@
 	 { "scala": [] },
 	 { "scheme": [] },
 	 { "scss": [] },
-	 { "sh": ["sh","bash"] },
+	 { "sh": ["sh","bash", "conf"] },
 	 { "snippets": [] },
 	 { "sql": ["sql"] },
 	 { "stylus": [] },
