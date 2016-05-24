@@ -33,7 +33,7 @@
 	 { "html": ["html", "htm"] },
 	 { "html_ruby": [] },
 	 { "ini": ["ini"] },
-	 { "jade": ["jade, pug"] },
+	 { "jade": ["jade", "pug"] },
 	 { "java": ["java"] },
 	 { "javascript": ["js"] },
 	 { "jsoniq": [] },
