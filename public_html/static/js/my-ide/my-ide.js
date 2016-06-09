@@ -163,14 +163,18 @@ function fileClickAction(href) {
                 // What type of file is this?
     			ext = file.filename;
 	    		if (file.filename.lastIndexOf(".") === -1) {
-		    	    var firstLine = data.split('\n')[0];
-		    	    if (firstLine.indexOf('python') > -1) {
-		    	        ext = "py";
-		    	    } else if (firstLine.indexOf('php') > -1) {
-		    	        ext = "php";
-		    	    } else if (firstLine.indexOf('node') > -1) {
-		    	        ext = "js";
-		    	    }
+	    		    if (file.filename === "Dockerfile") {
+	    		        ext = "sh";
+	    		    } else {
+		    	        var firstLine = data.split('\n')[0];
+    		    	    if (firstLine.indexOf('python') > -1) {
+	    	    	        ext = "py";
+		        	    } else if (firstLine.indexOf('php') > -1) {
+		        	        ext = "php";
+		    	        } else if (firstLine.indexOf('node') > -1) {
+		    	            ext = "js";
+		    	        }
+	    		    }
 		    	} else {
                     ext = file.filename.substring(file.filename.lastIndexOf("."));
                     ext = ext.replace('.', '');
