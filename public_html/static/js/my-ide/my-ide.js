@@ -163,7 +163,7 @@ function fileClickAction(href) {
                 // What type of file is this?
     			ext = file.filename;
 	    		if (file.filename.lastIndexOf(".") === -1) {
-	    		    if (file.filename === "Dockerfile") {
+	    		    if (file.filename === "Dockerfile" || file.filename === "Berksfile") {
 	    		        ext = "sh";
 	    		    } else {
 		    	        var firstLine = data.split('\n')[0];
