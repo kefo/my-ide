@@ -305,7 +305,8 @@ function instantiateEditor() {
 		name: 'closeTab',
 		bindKey: {
 			win: 'Alt-W',
-			mac: 'Option-W'
+			mac: 'Option-W',
+			sender: 'editor|cli'
 		},
 		exec: function(env, args, request) {
 			eTabs = $("#editorTabs");
