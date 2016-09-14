@@ -173,6 +173,10 @@ function fileClickAction(href) {
 		        	        ext = "php";
 		    	        } else if (firstLine.indexOf('node') > -1) {
 		    	            ext = "js";
+		    	        } else if (firstLine.indexOf('bash') > -1) {
+		    	            ext = "sh";
+		    	        } else if (firstLine.indexOf('/sh') > -1) {
+		    	            ext = "sh";
 		    	        }
 	    		    }
 		    	} else {
@@ -297,12 +301,11 @@ function instantiateEditor() {
 		setUnsaved();
 	});
     //editor.commands.bindKey("Ctrl-Shift-Space", "startAutocomplete");
-	editor.commands.addCommand({
+    editor.commands.addCommand({
 		name: 'closeTab',
 		bindKey: {
-			win: 'Ctrl-W',
-			mac: 'Command-W',
-			sender: 'editor|cli'
+			win: 'Alt-W',
+			mac: 'Option-W'
 		},
 		exec: function(env, args, request) {
 			eTabs = $("#editorTabs");
@@ -328,8 +331,8 @@ function instantiateEditor() {
 	editor.commands.addCommand({
 		name: 'saveFile',
 		bindKey: {
-			win: 'Ctrl-S',
-			mac: 'Command-S',
+			win: 'Alt-S',
+			mac: 'Option-S',
 			sender: 'editor|cli'
 		},
 		exec: function(env, args, request) {
