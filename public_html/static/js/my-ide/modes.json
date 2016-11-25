@@ -5,7 +5,7 @@
 	 { "asciidoc": [] },
 	 { "assembly_x86": [] },
 	 { "autohotkey": [] },
-	 { "batchfile": [] },
+	 { "batchfile": ["bat"] },
 	 { "c9search": [] },
 	 { "c_cpp": ["cpp"] },
 	 { "clojure": [] },
