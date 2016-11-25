@@ -174,7 +174,7 @@ function readDirRecursively(d, ignored, ignoreext) {
 	f.file = [];
 	tree.forEach(function(file){
 		fstart = file.substring(0, 1)
-		if (fstart === ".") { return; }
+		//if (fstart === ".") { return; }
 		//console.log(file);
 		stats = fs.statSync(d + file);
 		if (stats.isFile()) {
