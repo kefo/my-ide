@@ -33,10 +33,14 @@ server.get('/directory/', function (req, res){
 	
 	ignoreext = ["pyc", "png", "gif", "jpg", "jpeg", "class"];
 	
-	f = readDirRecursively(d, ignored, ignoreext);
-	
-	console.log(f);
-	res.status(200).send(f);
+	try {
+		f = readDirRecursively(d, ignored, ignoreext);
+		console.log(f);
+		res.status(200).send(f);
+	} catch (e) { 
+		console.log(e);
+		res.status(404).send(e);
+	}
 });
 
 server.get('/getfile/', function (req, res){
