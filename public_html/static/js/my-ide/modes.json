@@ -35,7 +35,7 @@
 	 { "ini": ["ini"] },
 	 { "jade": ["jade", "pug"] },
 	 { "java": ["java"] },
-	 { "javascript": ["js"] },
+	 { "javascript": ["js", "sjs"] },
 	 { "jsoniq": [] },
 	 { "json": ["json"] },
 	 { "jsp": [] },
