@@ -18,6 +18,23 @@ function init() {
 		config = data;
 		loadProjects();
 		instantiateEditor();
+		
+		setTimeout( function() {
+				$.each(config["projects"], function(i, p) {
+					pname = p["project-name"];
+					pdir = p["project-source"];
+					if (p["project-files"] === undefined) {
+						idiv = $("#info");
+						var messagediv = $('<div id="responsemessage" class="alert alert-danger">' + pname + " (" + pdir + ")" + ' not found!</div>');
+						idiv.append(messagediv);
+						messagediv.fadeOut(15000, function() {
+							idiv.empty();
+						});
+					}
+				})
+			},
+			20000
+		);
 	});
 	
 	// Capture tab click events.
@@ -404,7 +421,7 @@ function loadProjects() {
 				
 			fObj = data;
 			p["project-files"] = fObj;
-				
+
 			var li = $('<li class="dirclosed"><a id="' + fObj.fileid + '" href="#">' + p["project-name"] + '</a> <a id="' + fObj.fileid + '-dir" href="#"><img src="static/images/folder-new-7.png" title="Create directory here" /></a> <a id="' + fObj.fileid + '-file" href="#"><img src="static/images/document-new-6.png" title="Create file here" /></a></li>');
 			mainul.append(li);
 			$("#" + fObj.fileid).click(function() { fileClickAction($(this)); });
