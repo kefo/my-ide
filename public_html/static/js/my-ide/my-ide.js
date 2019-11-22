@@ -321,7 +321,7 @@ function instantiateEditor() {
     editor.commands.addCommand({
 		name: 'closeTab',
 		bindKey: {
-			win: 'Super-W',
+			win: 'Super-Q',
 			mac: 'Option-W',
 			sender: 'editor|cli'
 		},
