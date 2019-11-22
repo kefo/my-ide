@@ -71,7 +71,7 @@
 	 { "rdoc": [] },
 	 { "rhtml": [] },
 	 { "r": [] },
-	 { "ruby": ["rb"] },
+	 { "ruby": ["rb", "rake"] },
 	 { "rust": [] },
 	 { "sass": [] },
 	 { "scad": [] },
