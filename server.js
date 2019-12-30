@@ -156,14 +156,14 @@ server.get('/about/', function (req, res){
   });
 });
 
-server.listen(3000);
-console.log('Server started; Listening on port 3000');
+server.listen(8300);
+console.log('Server started; Listening on port 8300');
 
 function readDirRecursively(d, ignored, ignoreext) {
 	
 	var f = new Object();
 	f.filepath = d;
-	fid = f.filepath.replace(/([\.\s\-\/:']*)/g,"");
+	fid = f.filepath.replace(/([\.,\s\-\/:']*)/g,"");
 	f.fileid = fid;
 	f.isdir = true;
 	
@@ -188,7 +188,7 @@ function readDirRecursively(d, ignored, ignoreext) {
                 finfo = new Object();
                 finfo.filepath = d + file;
                 finfo.filename = file;
-                fid = finfo.filepath.replace(/([\.\s\-\/:'\(\)]*)/g,"");
+                fid = finfo.filepath.replace(/([\.,\s\-\/:'\(\)]*)/g,"");
                 finfo.fileid = fid;
                 finfo.isdir = false;
                 f.file.push(finfo);
