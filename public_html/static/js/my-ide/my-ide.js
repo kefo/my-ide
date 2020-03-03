@@ -321,7 +321,7 @@ function instantiateEditor() {
     editor.commands.addCommand({
 		name: 'closeTab',
 		bindKey: {
-			win: 'Alt-W',
+			win: 'Super-Q',
 			mac: 'Option-W',
 			sender: 'editor|cli'
 		},
@@ -349,7 +349,7 @@ function instantiateEditor() {
 	editor.commands.addCommand({
 		name: 'saveFile',
 		bindKey: {
-			win: 'Alt-S',
+			win: 'Super-S',
 			mac: 'Option-S',
 			sender: 'editor|cli'
 		},
