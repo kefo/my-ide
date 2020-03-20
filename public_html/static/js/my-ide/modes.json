@@ -94,7 +94,7 @@
 	 { "vbscript": ["vbs"] },
 	 { "velocity": [] },
 	 { "verilog": [] },
-	 { "xml": ["xml","rdf","xsl","xslt","xsd"] },
+	 { "xml": ["xml","rdf","xsl","xslt","xsd", "xspec"] },
 	 { "xquery": ["xqy","xq","xquery"] },
 	 { "yaml": ["yaml"] }
 ]}
