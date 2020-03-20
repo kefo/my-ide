@@ -152,6 +152,7 @@ function fileClickAction(href) {
 	//file = findFileBlock(fid, fileObj);
 	foundFile = false;
 	file = "";
+	//console.log(fid);
 	$.each(config["projects"], function(a, p) {
 		f = findFileBlock(fid, p["project-files"]);
 		if (typeof f != 'undefined') {
@@ -161,7 +162,7 @@ function fileClickAction(href) {
 			return;
 		}
 	})
-	//alert(fBlock.filepath);
+	//console.log(file.filepath);
 	
 	if (file.isdir) {
 		href.parent().toggleClass('dirclosed diropen');
@@ -321,7 +322,7 @@ function instantiateEditor() {
     editor.commands.addCommand({
 		name: 'closeTab',
 		bindKey: {
-			win: 'Alt-W',
+			win: 'Super-Q',
 			mac: 'Option-W',
 			sender: 'editor|cli'
 		},
@@ -349,7 +350,7 @@ function instantiateEditor() {
 	editor.commands.addCommand({
 		name: 'saveFile',
 		bindKey: {
-			win: 'Alt-S',
+			win: 'Super-S',
 			mac: 'Option-S',
 			sender: 'editor|cli'
 		},

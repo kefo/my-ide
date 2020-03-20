@@ -1,0 +1,23 @@
+#!/bin/bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+case "$1" in
+        start)
+            cd $DIR/../
+            node server.js &
+            echo $! > $DIR/../tmp/myide-server.pid
+            cd $DIR
+            echo "Waiting for server to start."
+            sleep 5
+            ;;
+        stop)
+            PID=`cat $DIR/../tmp/myide-server.pid`
+            kill $PID
+            rm $DIR/../tmp/myide-server.pid
+            ;;
+       
+        *)
+            echo $"Usage: $0 {start|stop}"
+            exit 1
+esac
