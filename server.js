@@ -5,6 +5,10 @@ var express = require('express'),
     path = require('path'),
     bodyParser = require('body-parser');
 
+const dotenv = require("dotenv");
+dotenv.config();
+const APP_PORT = process.env.PORT || 8300;
+
 var isWin = process.platform === "win32";
 
 // establish server
@@ -157,8 +161,8 @@ server.get('/about/', function (req, res){
   });
 });
 
-server.listen(8300);
-console.log('Server started; Listening on port 8300');
+server.listen(APP_PORT);
+console.log('Server started; Listening on port ' + APP_PORT);
 
 function readDirRecursively(d, ignored, ignoreext) {
 	
