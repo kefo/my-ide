@@ -85,3 +85,41 @@ project and `lds-id`:
 }
 ```
 
+The same for a Linux environment:
+
+```json
+{
+"editor":
+	{
+		"fontsize": 12,
+		"theme": "eclipse"
+	},
+"projects": 
+	[
+		{
+			"project-name": "lds-id",
+			"project-source": "/marklogic/data/kefo/work/lds-id/",
+			"ignore-dirs": [
+                		".git",
+                		".github",
+                		"marc-lcc",
+                		"lcdgt",
+                		"lcmpt",
+                		"names",
+                		"lcsh",
+                		"bibframe2marc"
+			 ]
+		},
+		{
+			"project-name": "My IDE",
+			"project-source": "/marklogic/data/kefo/ideenv/my-ide/",
+			"ignore-dirs": [
+                		".git",
+                		"node_modules",
+                		"ace-builds"
+			 ]
+		}
+	]
+
+}
+```
