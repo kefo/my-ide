@@ -92,9 +92,10 @@
 	 { "twig": [] },
 	 { "typescript": [] },
 	 { "vbscript": ["vbs"] },
+	 { "vcl": ["vcl"] },
 	 { "velocity": [] },
 	 { "verilog": [] },
-	 { "xml": ["xml","rdf","xsl","xslt","xsd","xspec"] },
+	 { "xml": ["xml","rdf","xsl","xslt","xsd", "xspec"] },
 	 { "xquery": ["xqy","xq","xquery"] },
 	 { "yaml": ["yaml"] }
 ]}

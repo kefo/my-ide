@@ -5,10 +5,15 @@ var express = require('express'),
     path = require('path'),
     bodyParser = require('body-parser');
 
+const dotenv = require("dotenv");
+dotenv.config();
+const APP_PORT = process.env.PORT || 8300;
+
+var isWin = process.platform === "win32";
 
 // establish server
-var express = require('express');
-var fs = require('fs');
+// var express = require('express');
+// var fs = require('fs');
 var server = express();
 
 // configure application
@@ -156,18 +161,24 @@ server.get('/about/', function (req, res){
   });
 });
 
-server.listen(8300);
-console.log('Server started; Listening on port 8300');
+server.listen(APP_PORT);
+console.log('Server started; Listening on port ' + APP_PORT);
 
 function readDirRecursively(d, ignored, ignoreext) {
 	
 	var f = new Object();
 	f.filepath = d;
+	
+	fnameParts = d.split('/');
 	fid = f.filepath.replace(/([\.,\s\-\/:']*)/g,"");
+	if (isWin) {
+	    fid = f.filepath.replace(/([\.,\s\-\/\\:&']*)/g,"");
+	    fnameParts = d.split('\\');
+	}
+
 	f.fileid = fid;
 	f.isdir = true;
 	
-	fnameParts = d.split('/');
 	fname = fnameParts[fnameParts.length-2]; // Dirs always end in / so it will be the second from the end.
 	//console.log(fname);
 	f.filename = fname;
@@ -189,6 +200,9 @@ function readDirRecursively(d, ignored, ignoreext) {
                 finfo.filepath = d + file;
                 finfo.filename = file;
                 fid = finfo.filepath.replace(/([\.,\s\-\/:'\(\)]*)/g,"");
+                if (isWin) {
+                    fid = finfo.filepath.replace(/([\.,\s\-\/\\:'\(\)&]*)/g,"");
+                }
                 finfo.fileid = fid;
                 finfo.isdir = false;
                 f.file.push(finfo);
@@ -196,6 +210,9 @@ function readDirRecursively(d, ignored, ignoreext) {
 		} else if (stats.isDirectory()) {
             if (ignored.indexOf(file) == -1) {
                 fpath = d + file + "/";
+                if (isWin) {
+                    fpath = d + file + "\\";
+                }
                 children = readDirRecursively(fpath, ignored, ignoreext);
                 f.file.push(children);
             }
