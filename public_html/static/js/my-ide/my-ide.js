@@ -103,7 +103,7 @@ function createNew(href, newtype) {
 		});
 	
 		if (newwhat == "file") {
-			newfile = $.get("/newfile/", { filepath: loc.filepath, filename: a });
+			newfile = $.get("newfile/", { filepath: loc.filepath, filename: a });
 			newfile.done(function(data) { 
 				response = data;
 				idiv = $("#info");
@@ -122,7 +122,7 @@ function createNew(href, newtype) {
 				}
 			});
 		} else if (newwhat == "directory") {
-			newdir = $.get("/newdir/", { filepath: loc.filepath, dirname: a });
+			newdir = $.get("newdir/", { filepath: loc.filepath, dirname: a });
 			newdir.done(function(data) { 
 				response = data;
 				idiv = $("#info");
@@ -175,7 +175,7 @@ function fileClickAction(href) {
 				toggleTab(href);
 			}
 		} else {
-			getfile = $.get("/getfile/", { file: file.filepath });
+			getfile = $.get("getfile/", { file: file.filepath });
 			getfile.done(function(data) { 
 
                 // What type of file is this?
@@ -417,7 +417,7 @@ function loadProjects() {
 		var mainul = $('<ul class="open"></ul>');
 		div.append(mainul);
 		
-		getdir = $.get("/directory/", { dir: pdir, ignoredirs: ignored });
+		getdir = $.get("directory/", { dir: pdir, ignoredirs: ignored });
 		getdir.done(function(data) { 
 				
 			fObj = data;
