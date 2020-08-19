@@ -1,14 +1,33 @@
-My-IDE is an in-browser [Integrated Development Environment](http://en.wikipedia.org/wiki/Integrated_development_environment) designed to do the basics.  It's minimal; that's the way I wanted it.
+# My-IDE 
 
-This type of thing isn't new.  It's been done before, but I needed an excuse to become familiar with [node.js](http://nodejs.org/) and spend a little time with Javascript.  There are a few things to do along with some refactoring, but it suits my needs.  More importantly, I wanted one IDE that could accommodate any number of mark-ups, most notably XQuery.
+My-IDE is an in-browser [Integrated Development Environment](http://en.wikipedia.org/wiki/Integrated_development_environment) 
+designed to do the basics.  It's minimal; that's the way I wanted it.
 
-Besides installing the node js app
+This type of thing isn't new.  It's been done before, but I needed an excuse to 
+become familiar with [node.js](http://nodejs.org/) and spend a little time 
+with Javascript.  There are a few things to do along with some refactoring, 
+but it suits my needs.  More importantly, I wanted one IDE 
+that could accommodate any number of mark-ups, most notably XQuery.
 
-    npm install
+This project makes use of [ace-builds](https://github.com/ajaxorg/ace-builds/), which
+is the ace.io Cloud9 editor.
 
-[ace-builds](https://github.com/ajaxorg/ace-builds/) will need to be cloned into 
+### Installing
 
-    public_html/static/js/
+```bash
+nodeenv ideenv
+git clone https://github.com/kefo/my-ide.git
+cd my-ide/
+npm install
+cd public_html/static/js/
+git clone https://github.com/ajaxorg/ace-builds.git
+cd ..
+cd ..
+ls -l
+cp config-default.json config.json
+cd ..
+./bin/myide start
+```
 
 
 
