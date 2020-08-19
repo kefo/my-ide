@@ -366,7 +366,7 @@ function instantiateEditor() {
 				// Content has been edited, let's save it.
 				if ( openFiles[fid].filepath != "" ) {
 					content = editor.getSession().getValue();
-					$.post("/savefile/", { filepath: openFiles[fid].filepath, content: content } )
+					$.post("savefile/", { filepath: openFiles[fid].filepath, content: content } )
 						.done(function(data) {
 							response = data;
 							if (response.error) {
