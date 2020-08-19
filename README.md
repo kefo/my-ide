@@ -29,5 +29,59 @@ cd ..
 ./bin/myide start
 ```
 
+The above will start the application on port 8300.  You can, if so desired, 
+create a `.env` file in the main directory and configure your own port:
 
+```bash
+vi .env
+```
+
+Contents of .env:
+```bash
+PORT=8301
+```
+
+The above would start the application on port 8301.
+
+### config.json
+
+The default [`config-default.json`](public_html/config-default.json) file shows
+the most basic usage.  Three things:
+1. It is important to bear in mind that directories MUST end in slashes.  
+2. If using `my-ide` on a Windows machine, the paths need to be properly escaped.
+3. Ignoring directories with lots of unimportant files (with respect to code creation/editing) is strongly encouraged.
+
+Here is an example config object for use on Windows.  It references the `my-ide` 
+project and `lds-id`:
+
+```json
+{
+"editor":
+	{
+		"fontsize": 12,
+		"theme": "eclipse"
+	},
+"projects": 
+	[
+		{
+			"project-name": "LDS-ID",
+			"project-source": "C:\\Users\\kevinford\\work\\lds-id\\",
+			"ignore-dirs": [
+			    ".git",
+			    "load",
+			    "source"
+			 ]
+		},
+		{
+			"project-name": "My IDE",
+			"project-source": "C:\\Users\\kevinford\\work\\ideenv\\my-ide\\",
+			"ignore-dirs": [
+			    ".git",
+			    "node_modules",
+			    "ace-builds"
+			 ]
+		}
+	]
+}
+```
 
