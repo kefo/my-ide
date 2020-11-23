@@ -37,7 +37,7 @@
 	 { "java": ["java"] },
 	 { "javascript": ["js", "sjs"] },
 	 { "jsoniq": [] },
-	 { "json": ["json"] },
+	 { "json": ["json", "jsonld"] },
 	 { "jsp": [] },
 	 { "jsx": [] },
 	 { "julia": [] },
