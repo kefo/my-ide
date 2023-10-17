@@ -17,7 +17,7 @@ var isWin = process.platform === "win32";
 var server = express();
 
 // configure application
-server.use(bodyParser.json({limit: '1mb'}));
+server.use(bodyParser.json({limit: '2mb'}));
 server.use(bodyParser.urlencoded({ extended: false, limit: '2mb' }));
 server.use(express.static(path.join(__dirname, 'public_html')));
 
